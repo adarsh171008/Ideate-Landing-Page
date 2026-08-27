@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Techfest 2026 · IIT Bombay — Aetherial Renaissance (Elemental)</title>
+<meta name="description" content="A reimagined gateway to Techfest 2026 — Asia's largest science and technology festival at IIT Bombay. 30th Edition · 16–18 December 2026 · Fire, Air &amp; Water.">
+<meta name="theme-color" content="#07060a">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Techfest 2026 · IIT Bombay — Aetherial Renaissance">
+<meta property="og:description" content="Where ambitious minds compete, build, learn and connect. 30th Edition · 16–18 December 2026.">
+<meta property="og:type" content="website">
+
+<!-- Fonts: degrade gracefully to system stacks if unavailable -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   0. TOKENS
+   ============================================================ */
+:root{
+  --bg:#07060a;
+  --bg-alt:#0a0709;
+  --panel:#120e14;
+  --panel-soft:#150f18;
+  --border:rgba(255,255,255,0.08);
+  --border-strong:rgba(255,255,255,0.16);
+
+  /* Elemental palette: Fire (compete) / Air (build & learn) / Water (connect) */
+  --fire:#ff5a2e;
+  --fire-2:#ffb199;
+  --air:#dff7ff;
+  --air-2:#8fe0f2;
+  --water:#1fa2ff;
+  --water-2:#00c2a8;
+
+  /* legacy aliases kept so the rest of the sheet reads the same */
+  --cyan:var(--air-2);
+  --violet:var(--water);
+  --magenta:var(--fire);
+
+  --white:#f7f5f2;
+  --muted:#a8a0a2;
+  --muted-dim:#6d6567;
+
+  --glow-cyan:rgba(143,224,242,.26);
+  --glow-violet:rgba(31,162,255,.28);
+  --glow-magenta:rgba(255,90,46,.26);
+  --glow-fire:rgba(255,90,46,.32);
+  --glow-air:rgba(143,224,242,.24);
+  --glow-water:rgba(31,162,255,.3);
+
+  --grad-aurora:linear-gradient(92deg,var(--fire) 0%,var(--air-2) 50%,var(--water) 100%);
+
+  --font-display:'Space Grotesk',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-body:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-soft:cubic-bezier(.22,.61,.36,1);
+
+  --container:1280px;
+  --nav-h:84px;
+}
+
+/* ============================================================
+   1. RESET
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+ul{list-style:none;}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;}
+
+::selection{background:var(--violet);color:var(--white);}
+
+:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+.skip-link{
+  position:absolute;top:-100px;left:16px;z-index:999;
+  background:var(--cyan);color:#06060a;padding:10px 18px;border-radius:8px;
+  font-family:var(--font-mono);font-size:13px;font-weight:500;
+  transition:top .25s var(--ease-out);
+}
+.skip-link:focus{top:16px;}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* ============================================================
+   2. LAYOUT PRIMITIVES
+   ============================================================ */
+.wrap{
+  width:100%;
+  max-width:var(--container);
+  margin:0 auto;
+  padding:0 40px;
+}
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.eyebrow::before{
+  content:'';
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 10px 2px var(--glow-cyan);
+}
+.gradient-text{
+  background:var(--grad-aurora);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  background-size:200% 100%;
+}
+
+/* ambient grid + noise background, shared across sections */
+.grid-field{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,#000 40%,transparent 90%);
+  pointer-events:none;
+}
+
+/* reveal-on-scroll */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .9s var(--ease-out), transform .9s var(--ease-out);
+}
+.reveal.is-visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.08s;}
+.reveal-delay-2{transition-delay:.16s;}
+.reveal-delay-3{transition-delay:.24s;}
+
+/* ============================================================
+   3. SCROLL PROGRESS BAR
+   ============================================================ */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:var(--grad-aurora);
+  z-index:1000;
+  transition:width .1s linear;
+}
+
+/* ambient elemental cursor glow — desktop, fine-pointer only, added via JS */
+.cursor-glow{
+  position:fixed;top:0;left:0;
+  width:480px;height:480px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,90,46,0.10) 0%,rgba(31,162,255,0.08) 45%,transparent 72%);
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:1;
+  mix-blend-mode:screen;
+  opacity:0;
+  transition:opacity .4s ease;
+  will-change:transform;
+}
+.cursor-glow.is-active{opacity:1;}
+
+/* ============================================================
+   4. NAVIGATION
+   ============================================================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  height:var(--nav-h);
+  display:flex;align-items:center;
+  border-bottom:1px solid transparent;
+  transition:background .4s var(--ease-soft), border-color .4s var(--ease-soft), backdrop-filter .4s;
+}
+.nav.is-scrolled{
+  background:rgba(6,6,10,0.72);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom-color:var(--border);
+}
+.nav__inner{
+  width:100%;max-width:var(--container);margin:0 auto;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav__logo{
+  font-family:var(--font-display);
+  font-size:19px;font-weight:700;letter-spacing:-0.01em;
+  display:flex;align-items:baseline;gap:6px;
+}
+.nav__logo span{
+  font-family:var(--font-mono);font-size:12px;font-weight:500;
+  color:var(--cyan);border:1px solid var(--border-strong);
+  padding:2px 7px;border-radius:5px;letter-spacing:0.02em;
+}
+.nav__links{
+  display:flex;align-items:center;gap:40px;
+}
+.nav__link{
+  font-size:14px;color:var(--muted);
+  position:relative;padding:6px 0;
+  transition:color .25s;
+}
+.nav__link::after{
+  content:'';position:absolute;left:0;bottom:0;width:0;height:1px;
+  background:var(--grad-aurora);
+  transition:width .3s var(--ease-out);
+}
+.nav__link:hover{color:var(--white);}
+.nav__link:hover::after{width:100%;}
+
+.nav__cta{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:12.5px;
+  border:1px solid var(--border-strong);
+  padding:9px 16px;border-radius:8px;
+  color:var(--white);
+  transition:border-color .25s, background .25s, transform .25s;
+}
+.nav__cta:hover{
+  border-color:var(--cyan);
+  background:rgba(62,232,255,0.06);
+  transform:translateY(-1px);
+}
+
+.nav__burger{
+  display:none;
+  width:38px;height:38px;
+  border:1px solid var(--border-strong);
+  border-radius:8px;
+  align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;
+}
+.nav__burger span{
+  width:16px;height:1.5px;background:var(--white);
+  transition:transform .3s var(--ease-out), opacity .3s;
+}
+.nav__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+.nav__burger.is-open span:nth-child(2){opacity:0;}
+.nav__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+
+.mobile-menu{
+  position:fixed;inset:0;z-index:850;
+  background:rgba(6,6,10,0.98);
+  backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:36px;
+  opacity:0;visibility:hidden;
+  transition:opacity .35s var(--ease-out), visibility .35s;
+}
+.mobile-menu.is-open{opacity:1;visibility:visible;}
+.mobile-menu a{
+  font-family:var(--font-display);font-size:30px;font-weight:600;color:var(--white);
+}
+.mobile-menu .nav__cta{font-size:14px;padding:12px 22px;}
+
+/* ============================================================
+   5. HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;align-items:center;
+  padding-top:var(--nav-h);
+  overflow:hidden;
+}
+.hero__glow-a{
+  position:absolute;top:-10%;left:-10%;width:640px;height:640px;
+  background:radial-gradient(circle,var(--glow-fire) 0%,transparent 70%);
+  filter:blur(20px);pointer-events:none;
+}
+.hero__glow-b{
+  position:absolute;bottom:-20%;right:-10%;width:600px;height:600px;
+  background:radial-gradient(circle,var(--glow-water) 0%,transparent 70%);
+  filter:blur(20px);pointer-events:none;
+}
+.hero__canvas{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+}
+.hero__inner{
+  position:relative;z-index:2;
+  width:100%;max-width:var(--container);margin:0 auto;padding:64px 40px;
+  display:grid;grid-template-columns:1.05fr 0.95fr;
+  gap:40px;align-items:center;
+}
+.hero__badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:0.12em;
+  color:var(--muted);
+  border:1px solid var(--border-strong);
+  padding:7px 14px;border-radius:100px;
+  background:rgba(255,255,255,0.02);
+  margin-bottom:28px;
+}
+.hero__badge::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 10px 3px var(--glow-cyan);
+  animation:pulse-dot 2.4s ease-in-out infinite;
+}
+@keyframes pulse-dot{
+  0%,100%{opacity:1;}
+  50%{opacity:.35;}
+}
+.hero__title{
+  font-size:clamp(2.6rem,5.6vw,4.6rem);
+  line-height:1.04;
+  font-weight:700;
+  letter-spacing:-0.03em;
+  margin-bottom:26px;
+}
+.hero__desc{
+  font-size:17px;
+  color:var(--muted);
+  max-width:480px;
+  margin-bottom:38px;
+  line-height:1.7;
+}
+.hero__actions{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+
+.btn{
+  position:relative;
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--font-body);font-size:14.5px;font-weight:500;
+  padding:14px 26px;border-radius:10px;
+  transition:transform .35s var(--ease-out);
+  will-change:transform;
+}
+.btn-primary{
+  color:#06060a;
+  background:var(--grad-aurora);
+  background-size:160% 100%;
+  background-position:0% 0%;
+  transition:transform .35s var(--ease-out), background-position .6s var(--ease-soft), box-shadow .35s;
+  box-shadow:0 0 0 0 var(--glow-cyan);
+}
+.btn-primary:hover{
+  background-position:100% 0%;
+  box-shadow:0 8px 30px -6px var(--glow-violet);
+}
+.btn-ghost{
+  color:var(--white);
+  border:1px solid var(--border-strong);
+  background:rgba(255,255,255,0.02);
+}
+.btn-ghost:hover{
+  border-color:var(--cyan);
+  background:rgba(62,232,255,0.05);
+}
+
+/* --- Hero orbital instrument (signature element) --- */
+.hero__visual{
+  position:relative;
+  height:min(560px,80vw);
+  display:flex;align-items:center;justify-content:center;
+}
+.orbital{
+  position:relative;
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+.orbital__core{
+  position:absolute;width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff 0%,var(--fire-2) 20%,var(--fire) 46%,var(--water) 78%,transparent 88%);
+  filter:blur(0.4px);
+  box-shadow:
+    0 0 60px 10px var(--glow-fire),
+    0 0 140px 40px var(--glow-water);
+  animation:core-pulse 4.5s ease-in-out infinite;
+}
+@keyframes core-pulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.06);}
+}
+.orbital svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;}
+.ring{
+  fill:none;
+  stroke-width:1;
+}
+.ring-a{stroke:rgba(255,90,46,0.42);}
+.ring-b{stroke:rgba(31,162,255,0.42);}
+.ring-c{stroke:rgba(223,247,255,0.32);}
+.ring-spin-cw{
+  transform-origin:center;
+  animation:spin-cw 40s linear infinite;
+}
+.ring-spin-ccw{
+  transform-origin:center;
+  animation:spin-ccw 55s linear infinite;
+}
+.ring-spin-slow{
+  transform-origin:center;
+  animation:spin-cw 90s linear infinite;
+}
+@keyframes spin-cw{to{transform:rotate(360deg);}}
+@keyframes spin-ccw{to{transform:rotate(-360deg);}}
+
+.orbital__node{
+  fill:var(--white);
+  filter:drop-shadow(0 0 6px var(--cyan));
+}
+
+.floating-card{
+  position:absolute;
+  display:flex;flex-direction:column;gap:2px;
+  padding:12px 16px;
+  border-radius:12px;
+  border:1px solid var(--border-strong);
+  background:rgba(13,17,32,0.55);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 8px 30px -10px rgba(0,0,0,0.6);
+  animation:float-card 6s ease-in-out infinite;
+}
+.floating-card .fc-label{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;
+  color:var(--muted-dim);text-transform:uppercase;
+}
+.floating-card .fc-value{
+  font-family:var(--font-display);font-size:14.5px;font-weight:600;
+  color:var(--white);
+}
+.fc-1{top:6%;left:-4%;animation-delay:0s;}
+.fc-2{bottom:14%;left:2%;animation-delay:1.4s;}
+.fc-3{top:38%;right:-8%;animation-delay:2.8s;}
+@keyframes float-card{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+
+.hero__scroll-cue{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11px;color:var(--muted-dim);
+  letter-spacing:0.1em;text-transform:uppercase;
+}
+.hero__scroll-cue span{
+  width:1px;height:26px;
+  background:linear-gradient(var(--muted-dim),transparent);
+  animation:scroll-cue-move 2s ease-in-out infinite;
+}
+@keyframes scroll-cue-move{
+  0%{opacity:0;transform:translateY(-6px) scaleY(0.5);}
+  50%{opacity:1;}
+  100%{opacity:0;transform:translateY(10px) scaleY(1);}
+}
+
+/* ============================================================
+   6. SECTION HEADERS (shared)
+   ============================================================ */
+.section{
+  position:relative;
+  padding:140px 0;
+}
+.section__head{
+  max-width:640px;
+  margin-bottom:76px;
+}
+.section__eyebrow{margin-bottom:20px;}
+.section__title{
+  font-size:clamp(2rem,3.6vw,2.9rem);
+  line-height:1.12;
+  margin-bottom:18px;
+}
+.section__desc{
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.75;
+  max-width:560px;
+}
+
+/* ============================================================
+   7. EXPERIENCE SECTION
+   ============================================================ */
+.experience{background:var(--bg);}
+.exp-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.exp-card{
+  position:relative;
+  padding:38px 32px 34px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(255,255,255,0.025),rgba(255,255,255,0.005));
+  overflow:hidden;
+  transition:transform .5s var(--ease-out), border-color .5s var(--ease-out);
+}
+.exp-card::before{
+  content:'';
+  position:absolute;inset:-1px;
+  border-radius:18px;
+  padding:1px;
+  background:var(--grad-aurora);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  opacity:0;
+  transition:opacity .5s var(--ease-out);
+  pointer-events:none;
+}
+.exp-card:hover{transform:translateY(-6px);}
+.exp-card:hover::before{opacity:1;}
+.exp-card__glow{
+  position:absolute;top:-40%;right:-30%;width:220px;height:220px;
+  background:radial-gradient(circle,var(--glow-water),transparent 70%);
+  opacity:0;filter:blur(10px);
+  transition:opacity .5s var(--ease-out);
+}
+.exp-card:hover .exp-card__glow{opacity:1;}
+.exp-card__icon{
+  font-size:26px;
+  width:52px;height:52px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:12px;
+  border:1px solid var(--border-strong);
+  background:rgba(255,255,255,0.02);
+  color:var(--air-2);
+  margin-bottom:26px;
+  transition:color .4s var(--ease-out), box-shadow .4s var(--ease-out), border-color .4s var(--ease-out);
+}
+/* Elemental accents — Fire (compete), Air (build & learn), Water (connect) */
+.exp-card--fire .exp-card__icon{color:var(--fire-2);}
+.exp-card--fire .exp-card__glow{background:radial-gradient(circle,var(--glow-fire),transparent 70%);}
+.exp-card--fire:hover .exp-card__icon{border-color:var(--fire);box-shadow:0 0 22px -4px var(--glow-fire);}
+.exp-card--fire::before{background:linear-gradient(135deg,var(--fire),var(--fire-2));}
+
+.exp-card--air .exp-card__icon{color:var(--air);}
+.exp-card--air .exp-card__glow{background:radial-gradient(circle,var(--glow-air),transparent 70%);}
+.exp-card--air:hover .exp-card__icon{border-color:var(--air-2);box-shadow:0 0 22px -4px var(--glow-air);}
+.exp-card--air::before{background:linear-gradient(135deg,var(--air-2),var(--air));}
+
+.exp-card--water .exp-card__icon{color:var(--water-2);}
+.exp-card--water .exp-card__glow{background:radial-gradient(circle,var(--glow-water),transparent 70%);}
+.exp-card--water:hover .exp-card__icon{border-color:var(--water);box-shadow:0 0 22px -4px var(--glow-water);}
+.exp-card--water::before{background:linear-gradient(135deg,var(--water),var(--water-2));}
+
+.exp-card__tag{
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--muted-dim);display:block;margin-bottom:10px;
+}
+.exp-card__title{
+  font-size:19px;font-weight:600;margin-bottom:12px;letter-spacing:-0.01em;
+}
+.exp-card__text{
+  color:var(--muted);font-size:14.5px;line-height:1.75;
+}
+
+/* ============================================================
+   8. EVENTS SECTION — visually distinct: numbered ledger rows
+   ============================================================ */
+.events{
+  background:linear-gradient(180deg,var(--bg-alt) 0%,var(--bg) 100%);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.event-row{
+  display:grid;
+  grid-template-columns:110px 1fr auto;
+  align-items:center;
+  gap:32px;
+  padding:38px 8px;
+  border-top:1px solid var(--border);
+  transition:background .4s var(--ease-out);
+}
+.event-row:last-child{border-bottom:1px solid var(--border);}
+.event-row:hover{background:rgba(255,255,255,0.015);}
+.event-row__num{
+  font-family:var(--font-mono);
+  font-size:14px;color:var(--muted-dim);
+  letter-spacing:0.05em;
+}
+.event-row__body h3{
+  font-size:24px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;
+  transition:color .3s;
+}
+.event-row:hover .event-row__body h3{
+  background:var(--grad-aurora);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.event-row__body p{
+  color:var(--muted);font-size:15px;max-width:480px;
+}
+.event-row__arrow{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--border-strong);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--muted);
+  transition:transform .4s var(--ease-out), border-color .4s, color .4s;
+  flex-shrink:0;
+}
+.event-row:hover .event-row__arrow{
+  transform:rotate(45deg);
+  border-color:var(--cyan);color:var(--cyan);
+}
+
+/* ============================================================
+   9. DATES / TIMELINE SECTION
+   ============================================================ */
+.timeline{background:var(--bg);}
+.timeline__list{
+  position:relative;
+  max-width:820px;
+}
+.timeline__line{
+  position:absolute;left:29px;top:10px;bottom:10px;width:1px;
+  background:linear-gradient(var(--fire) 0%,var(--air-2) 50%,var(--water) 100%);
+  opacity:0.35;
+}
+.timeline__item{
+  position:relative;
+  display:grid;
+  grid-template-columns:60px 1fr;
+  gap:32px;
+  padding-bottom:64px;
+}
+.timeline__item:last-child{padding-bottom:0;}
+.timeline__node{
+  position:relative;z-index:1;
+  width:60px;height:60px;
+  border-radius:50%;
+  border:1px solid var(--border-strong);
+  background:var(--panel);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:11px;color:var(--cyan);
+}
+.timeline__item:hover .timeline__node{
+  box-shadow:0 0 0 6px rgba(255,255,255,0.06);
+}
+.timeline__item--fire .timeline__node{color:var(--fire-2);}
+.timeline__item--fire:hover .timeline__node{border-color:var(--fire);box-shadow:0 0 0 6px var(--glow-fire);}
+.timeline__item--air .timeline__node{color:var(--air);}
+.timeline__item--air:hover .timeline__node{border-color:var(--air-2);box-shadow:0 0 0 6px var(--glow-air);}
+.timeline__item--water .timeline__node{color:var(--water-2);}
+.timeline__item--water:hover .timeline__node{border-color:var(--water);box-shadow:0 0 0 6px var(--glow-water);}
+.timeline__content{padding-top:6px;}
+.timeline__date{
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.1em;
+  color:var(--muted-dim);text-transform:uppercase;margin-bottom:10px;
+}
+.timeline__title{
+  font-size:22px;font-weight:600;margin-bottom:10px;letter-spacing:-0.01em;
+}
+.timeline__text{
+  color:var(--muted);font-size:15px;max-width:460px;line-height:1.7;
+}
+
+/* ============================================================
+   10. CTA SECTION
+   ============================================================ */
+.cta{padding:120px 0 140px;}
+.cta__panel{
+  position:relative;
+  border-radius:28px;
+  border:1px solid var(--border-strong);
+  padding:96px 48px;
+  text-align:center;
+  overflow:hidden;
+  background:radial-gradient(ellipse 120% 100% at 50% 120%,rgba(31,162,255,0.14),transparent 60%),var(--panel);
+}
+.cta__panel::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 15% 20%,var(--glow-fire),transparent 45%),
+    radial-gradient(circle at 50% 0%,var(--glow-air),transparent 40%),
+    radial-gradient(circle at 85% 30%,var(--glow-water),transparent 42%);
+  opacity:.6;filter:blur(30px);
+  pointer-events:none;
+}
+.cta__eyebrow{
+  position:relative;z-index:1;
+  justify-content:center;margin-bottom:22px;
+}
+.cta__title{
+  position:relative;z-index:1;
+  font-size:clamp(2rem,4.4vw,3.4rem);
+  line-height:1.1;
+  max-width:760px;margin:0 auto 22px;
+}
+.cta__text{
+  position:relative;z-index:1;
+  color:var(--muted);font-size:16.5px;
+  max-width:480px;margin:0 auto 40px;
+}
+.cta__panel .btn{position:relative;z-index:1;}
+
+/* ============================================================
+   11. FOOTER
+   ============================================================ */
+.footer{
+  border-top:1px solid var(--border);
+  padding:48px 0;
+}
+.footer__inner{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.footer__line1{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:0.06em;
+  color:var(--muted);
+}
+.footer__line2{
+  font-size:13px;color:var(--muted-dim);
+}
+
+/* ============================================================
+   12. RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .hero__inner{grid-template-columns:1fr;}
+  .hero__visual{order:-1;height:380px;margin-bottom:16px;}
+  .hero__desc{max-width:100%;}
+  .exp-grid{grid-template-columns:1fr 1fr;}
+}
+
+@media (max-width:860px){
+  .wrap,.nav__inner,.hero__inner{padding-left:24px;padding-right:24px;}
+  .nav__links{display:none;}
+  .nav__burger{display:flex;}
+  .nav .nav__cta{display:none;}
+  .section{padding:96px 0;}
+  .exp-grid{grid-template-columns:1fr;}
+  .event-row{grid-template-columns:50px 1fr auto;gap:18px;padding:28px 4px;}
+  .event-row__body h3{font-size:20px;}
+  .cta__panel{padding:64px 26px;}
+}
+
+@media (max-width:520px){
+  .hero__title{font-size:2.3rem;}
+  .hero__badge{font-size:10.5px;}
+  .floating-card{display:none;}
+  .orbital__core{width:90px;height:90px;}
+  .hero__actions{flex-direction:column;align-items:stretch;}
+  .btn{justify-content:center;}
+  .footer__inner{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="nav" id="siteNav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__logo" aria-label="Techfest 2026 home">TECHFEST <span>/ 26</span></a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#experience" class="nav__link">Experience</a>
+      <a href="#events" class="nav__link">Events</a>
+      <a href="#dates" class="nav__link">Dates</a>
+    </nav>
+
+    <a class="nav__cta" href="https://techfest.org/" target="_blank" rel="noopener">
+      Official Site <span aria-hidden="true">↗</span>
+    </a>
+
+    <button class="nav__burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#experience" class="mobile-link">Experience</a>
+  <a href="#events" class="mobile-link">Events</a>
+  <a href="#dates" class="mobile-link">Dates</a>
+  <a class="nav__cta" href="https://techfest.org/" target="_blank" rel="noopener">Official Site ↗</a>
+</div>
+
+<main id="main">
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="top">
+  <div class="grid-field" aria-hidden="true"></div>
+  <div class="hero__glow-a" aria-hidden="true"></div>
+  <div class="hero__glow-b" aria-hidden="true"></div>
+  <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
+
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <p class="hero__badge">IIT BOMBAY · 30TH EDITION · 2026</p>
+
+      <h1 class="hero__title">
+        Enter the <span class="gradient-text">Aetherial Renaissance.</span>
+      </h1>
+
+      <p class="hero__desc">
+        A reimagined gateway to Techfest 2026 — where ambitious minds compete, build, learn and connect at Asia's largest science and technology festival.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn-primary" href="https://techfest.org/" target="_blank" rel="noopener" data-magnetic>
+          Explore Techfest <span aria-hidden="true">↗</span>
+        </a>
+        <a class="btn btn-ghost" href="#experience" data-magnetic>
+          Discover the experience <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="orbital" id="orbital">
+        <svg viewBox="0 0 500 500">
+          <circle class="ring ring-a ring-spin-cw" cx="250" cy="250" r="170"/>
+          <circle class="ring ring-b ring-spin-ccw" cx="250" cy="250" r="210"/>
+          <circle class="ring ring-c ring-spin-slow" cx="250" cy="250" r="240" stroke-dasharray="2 10"/>
+          <g class="ring-spin-cw" style="transform-origin:250px 250px;">
+            <circle class="orbital__node" cx="250" cy="80" r="4"/>
+          </g>
+          <g class="ring-spin-ccw" style="transform-origin:250px 250px;">
+            <circle class="orbital__node" cx="460" cy="250" r="3.5"/>
+          </g>
+        </svg>
+        <div class="orbital__core"></div>
+      </div>
+
+      <div class="floating-card fc-1">
+        <span class="fc-label">Edition</span>
+        <span class="fc-value">30th</span>
+      </div>
+      <div class="floating-card fc-2">
+        <span class="fc-label">Location</span>
+        <span class="fc-value">IIT Bombay</span>
+      </div>
+      <div class="floating-card fc-3">
+        <span class="fc-label">Dates</span>
+        <span class="fc-value">16–18 Dec</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__scroll-cue" aria-hidden="true">
+    <span></span>
+    Scroll
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPERIENCE
+     ============================================================ -->
+<section class="section experience" id="experience">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <p class="eyebrow section__eyebrow">The Experience</p>
+      <h2 class="section__title">More than a festival.</h2>
+      <p class="section__desc">
+        Techfest brings together competition, hands-on learning, frontier technology and a community of builders — three days engineered to move you from spectator to participant.
+      </p>
+    </div>
+
+    <div class="exp-grid">
+      <div class="exp-card exp-card--fire reveal reveal-delay-1">
+        <div class="exp-card__glow" aria-hidden="true"></div>
+        <div class="exp-card__icon" aria-hidden="true">◈</div>
+        <span class="exp-card__tag">Element · Fire</span>
+        <h3 class="exp-card__title">Compete</h3>
+        <p class="exp-card__text">Enter competitions spanning AI, robotics, coding and engineering — built to test how far your ideas can go under real pressure.</p>
+      </div>
+
+      <div class="exp-card exp-card--air reveal reveal-delay-2">
+        <div class="exp-card__glow" aria-hidden="true"></div>
+        <div class="exp-card__icon" aria-hidden="true">✦</div>
+        <span class="exp-card__tag">Element · Air</span>
+        <h3 class="exp-card__title">Build &amp; Learn</h3>
+        <p class="exp-card__text">Work through practical, hands-on workshops led by practitioners across the technologies shaping the decade ahead.</p>
+      </div>
+
+      <div class="exp-card exp-card--water reveal reveal-delay-3">
+        <div class="exp-card__glow" aria-hidden="true"></div>
+        <div class="exp-card__icon" aria-hidden="true">◎</div>
+        <span class="exp-card__tag">Element · Water</span>
+        <h3 class="exp-card__title">Connect</h3>
+        <p class="exp-card__text">Meet the students, creators, professionals and innovators building alongside you — Techfest's network outlasts its three days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EVENTS
+     ============================================================ -->
+<section class="section events" id="events">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <p class="eyebrow section__eyebrow">Events</p>
+      <h2 class="section__title">Choose your arena.</h2>
+      <p class="section__desc">
+        Three formats, one festival. Pick where you show up — and how you want to spend your three days.
+      </p>
+    </div>
+
+    <div class="event-list">
+      <div class="event-row reveal">
+        <span class="event-row__num">01</span>
+        <div class="event-row__body">
+          <h3>Competitions</h3>
+          <p>Hack, engineer, analyse and innovate.</p>
+        </div>
+        <span class="event-row__arrow" aria-hidden="true">↗</span>
+      </div>
+
+      <div class="event-row reveal">
+        <span class="event-row__num">02</span>
+        <div class="event-row__body">
+          <h3>Workshops</h3>
+          <p>Get closer to the technologies shaping tomorrow through practical, hands-on sessions.</p>
+        </div>
+        <span class="event-row__arrow" aria-hidden="true">↗</span>
+      </div>
+
+      <div class="event-row reveal">
+        <span class="event-row__num">03</span>
+        <div class="event-row__body">
+          <h3>Campus Experience</h3>
+          <p>Experience IIT Bombay and become part of the Techfest community.</p>
+        </div>
+        <span class="event-row__arrow" aria-hidden="true">↗</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DATES / TIMELINE
+     ============================================================ -->
+<section class="section timeline" id="dates">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <p class="eyebrow section__eyebrow">Dates</p>
+      <h2 class="section__title">Three days. One renaissance.</h2>
+      <p class="section__desc">16–18 December 2026, at IIT Bombay.</p>
+    </div>
+
+    <div class="timeline__list">
+      <div class="timeline__line" aria-hidden="true"></div>
+
+      <div class="timeline__item timeline__item--fire reveal">
+        <div class="timeline__node">01</div>
+        <div class="timeline__content">
+          <p class="timeline__date">16 December — Day 01 · Fire</p>
+          <h3 class="timeline__title">Begin the journey.</h3>
+          <p class="timeline__text">Registrations open, arenas come alive, and Techfest 2026 officially begins.</p>
+        </div>
+      </div>
+
+      <div class="timeline__item timeline__item--air reveal">
+        <div class="timeline__node">02</div>
+        <div class="timeline__content">
+          <p class="timeline__date">17 December — Day 02 · Air</p>
+          <h3 class="timeline__title">Compete, build, explore.</h3>
+          <p class="timeline__text">Competitions, workshops and technology experiences run at full pace across campus.</p>
+        </div>
+      </div>
+
+      <div class="timeline__item timeline__item--water reveal">
+        <div class="timeline__node">03</div>
+        <div class="timeline__content">
+          <p class="timeline__date">18 December — Day 03 · Water</p>
+          <h3 class="timeline__title">Connect, and finish strong.</h3>
+          <p class="timeline__text">Finals, closing experiences, and a last chance to connect before the renaissance ends.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta__panel reveal">
+      <p class="eyebrow cta__eyebrow">Ready?</p>
+      <h2 class="cta__title">Don't just watch the future.</h2>
+      <p class="cta__text">Build it. Compete in it. Learn from it. Experience Techfest 2026 at IIT Bombay.</p>
+      <a class="btn btn-primary" href="https://techfest.org/" target="_blank" rel="noopener" data-magnetic>
+        Visit Techfest 2026 <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <p class="footer__line1">TECHFEST 2026 · IIT BOMBAY</p>
+    <p class="footer__line2">Aetherial Renaissance · Concept Landing Page</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Nav scroll state ---------- */
+  var nav = document.getElementById('siteNav');
+  var progress = document.getElementById('scrollProgress');
+
+  function onScroll(){
+    var y = window.scrollY || document.documentElement.scrollTop;
+    nav.classList.toggle('is-scrolled', y > 8);
+
+    var doc = document.documentElement;
+    var scrollable = doc.scrollHeight - doc.clientHeight;
+    var pct = scrollable > 0 ? (y / scrollable) * 100 : 0;
+    progress.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Mobile menu ---------- */
+  var burger = document.getElementById('burgerBtn');
+  var mobileMenu = document.getElementById('mobileMenu');
+
+  function closeMenu(){
+    burger.classList.remove('is-open');
+    burger.setAttribute('aria-expanded','false');
+    mobileMenu.classList.remove('is-open');
+  }
+
+  burger.addEventListener('click', function(){
+    var open = burger.classList.toggle('is-open');
+    burger.setAttribute('aria-expanded', open ? 'true':'false');
+    mobileMenu.classList.toggle('is-open', open);
+  });
+
+  Array.prototype.forEach.call(mobileMenu.querySelectorAll('a'), function(a){
+    a.addEventListener('click', closeMenu);
+  });
+
+  /* ---------- Smooth scroll for in-page anchors ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function(link){
+    link.addEventListener('click', function(e){
+      var id = this.getAttribute('href');
+      if(id.length < 2) return;
+      var target = document.querySelector(id);
+      if(!target) return;
+      e.preventDefault();
+      var navH = document.getElementById('siteNav').offsetHeight;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - (navH - 8);
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+
+  /* ---------- Scroll reveal ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------- Elemental cursor glow (desktop only) ---------- */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isFinePointer = window.matchMedia('(pointer: fine)').matches;
+  var cursorGlow = document.getElementById('cursorGlow');
+
+  if(!reduceMotion && isFinePointer && cursorGlow){
+    var glowActive = false;
+    window.addEventListener('mousemove', function(e){
+      if(!glowActive){ cursorGlow.classList.add('is-active'); glowActive = true; }
+      cursorGlow.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px) translate(-50%,-50%)';
+    }, { passive: true });
+    document.addEventListener('mouseleave', function(){
+      cursorGlow.classList.remove('is-active');
+      glowActive = false;
+    });
+  }
+
+  /* ---------- Hero canvas: rising embers + drifting air wisps ---------- */
+  (function(){
+    var canvas = document.getElementById('heroCanvas');
+    var hero = document.querySelector('.hero');
+    if(!canvas || !hero || reduceMotion) return;
+
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    var running = false;
+    var raf = null;
+    var w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    var FIRE = [255,90,46];
+    var AIR  = [223,247,255];
+    var WATER= [31,162,255];
+
+    function resize(){
+      var r = hero.getBoundingClientRect();
+      w = r.width; h = r.height;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+
+    function makeParticle(){
+      var kind = Math.random();
+      // 55% embers (fire, rising), 30% air wisps (drifting sideways), 15% water glints (slow shimmer)
+      if(kind < 0.55){
+        return {
+          type:'ember',
+          x: Math.random()*w,
+          y: h + Math.random()*40,
+          r: 1 + Math.random()*2.2,
+          vy: -(0.35 + Math.random()*0.55),
+          vx: (Math.random()-0.5)*0.3,
+          life: 0,
+          maxLife: 260 + Math.random()*220,
+          color: FIRE,
+          alpha: 0.5 + Math.random()*0.4
+        };
+      } else if(kind < 0.85){
+        return {
+          type:'wisp',
+          x: -20,
+          y: Math.random()*h,
+          r: 0.8 + Math.random()*1.4,
+          vy: (Math.random()-0.5)*0.15,
+          vx: 0.25 + Math.random()*0.4,
+          life: 0,
+          maxLife: 300 + Math.random()*260,
+          color: AIR,
+          alpha: 0.25 + Math.random()*0.3
+        };
+      } else {
+        return {
+          type:'glint',
+          x: Math.random()*w,
+          y: Math.random()*h,
+          r: 1 + Math.random()*1.8,
+          vy: (Math.random()-0.5)*0.1,
+          vx: (Math.random()-0.5)*0.1,
+          life: 0,
+          maxLife: 200 + Math.random()*200,
+          color: WATER,
+          alpha: 0.3 + Math.random()*0.3
+        };
+      }
+    }
+
+    var MAX_PARTICLES = 46;
+
+    function step(){
+      ctx.clearRect(0,0,w,h);
+
+      while(particles.length < MAX_PARTICLES){
+        particles.push(makeParticle());
+      }
+
+      for(var i = particles.length - 1; i >= 0; i--){
+        var p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life++;
+
+        var fade = 1 - (p.life / p.maxLife);
+        if(fade <= 0 || p.x > w + 30 || p.x < -30 || p.y < -30 || p.y > h + 30){
+          particles.splice(i,1,makeParticle());
+          continue;
+        }
+
+        var a = Math.max(0, fade * p.alpha);
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(' + p.color[0] + ',' + p.color[1] + ',' + p.color[2] + ',' + a.toFixed(3) + ')';
+        ctx.shadowColor = 'rgba(' + p.color[0] + ',' + p.color[1] + ',' + p.color[2] + ',' + (a*0.8).toFixed(3) + ')';
+        ctx.shadowBlur = p.type === 'glint' ? 6 : 3;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      raf = requestAnimationFrame(step);
+    }
+
+    function start(){
+      if(running) return;
+      running = true;
+      resize();
+      raf = requestAnimationFrame(step);
+    }
+    function stop(){
+      running = false;
+      if(raf) cancelAnimationFrame(raf);
+      ctx.clearRect(0,0,w,h);
+    }
+
+    window.addEventListener('resize', function(){
+      if(running) resize();
+    });
+
+    if('IntersectionObserver' in window){
+      var heroIO = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          entry.isIntersecting ? start() : stop();
+        });
+      }, { threshold: 0.05 });
+      heroIO.observe(hero);
+    } else {
+      start();
+    }
+  })();
+
+  if(!reduceMotion && isFinePointer){
+    Array.prototype.forEach.call(document.querySelectorAll('[data-magnetic]'), function(btn){
+      btn.addEventListener('mousemove', function(e){
+        var r = btn.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width/2;
+        var y = e.clientY - r.top - r.height/2;
+        btn.style.transform = 'translate(' + (x*0.18) + 'px,' + (y*0.35) + 'px)';
+      });
+      btn.addEventListener('mouseleave', function(){
+        btn.style.transform = 'translate(0,0)';
+      });
+    });
+
+    /* ---------- Cursor-reactive orbital core ---------- */
+    var orbital = document.getElementById('orbital');
+    var heroSection = document.querySelector('.hero');
+    if(orbital && heroSection){
+      heroSection.addEventListener('mousemove', function(e){
+        var r = heroSection.getBoundingClientRect();
+        var cx = (e.clientX - r.left) / r.width - 0.5;
+        var cy = (e.clientY - r.top) / r.height - 0.5;
+        orbital.style.transform = 'translate(' + (cx*14) + 'px,' + (cy*14) + 'px)';
+      });
+      heroSection.addEventListener('mouseleave', function(){
+        orbital.style.transform = 'translate(0,0)';
+      });
+    }
+  }
+
+})();
+</script>
+
+</body>
+</html>
